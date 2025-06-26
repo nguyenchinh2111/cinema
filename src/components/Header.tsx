@@ -62,10 +62,12 @@ export default function Header() {
         </ul>
       </div>
       <div className="flex items-center space-x-4">
-        <ButtonComponent
-          className="w-[70px] h-[25] bg-red-400 rounded  hover:bg-amber-500"
-          text="Login"
-        />
+        <Link href="/login">
+          <ButtonComponent
+        className="w-[70px] h-[25] bg-red-400 rounded hover:bg-amber-500"
+        text="Login"
+          />
+        </Link>
       </div>
     </div>
   );
