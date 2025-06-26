@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { cinemaData } from "../../Mocdata/cinemaData";
-import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+import ButtonComponent from '../../components/ButtonComponent/ButtonComponent';
 
 interface Showtime {
   id: string;
@@ -91,13 +91,11 @@ export default function TicketsPage() {
     for (const row of rows) {
       for (let seat = 1; seat <= 12; seat++) {
         const seatId = `${row}${seat}`;
-        // Randomly make some seats occupied for demo
-        const isOccupied = Math.random() < 0.3;
         seats.push({
           id: seatId,
           row,
           number: seat,
-          isOccupied,
+          isOccupied: false,
           isSelected: bookingData.selectedSeats.includes(seatId),
         });
       }
@@ -246,7 +244,7 @@ export default function TicketsPage() {
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-3 bg-gray-800">
-                      <h4 className="font-semibold text-sm line-clamp-2">
+                      <h4 className="font-semibold text-sm line-clamp-1">
                         {movie.title}
                       </h4>
                       <p className="text-gray-400 text-xs">{movie.duration}</p>
@@ -345,11 +343,11 @@ export default function TicketsPage() {
                 {generateSeats().map((seat) => (
                   <div key={seat.id} className="flex justify-center">
                     {seat.number === 1 && (
-                      <div className="absolute -ml-8 mt-2 text-gray-400 font-semibold">
+                      <div className="absolute -ml-8 mt-2 text-gray-400 font-semibold cursor-pointer">
                         {seat.row}
                       </div>
                     )}
-                    <button
+                    <ButtonComponent
                       className={`w-8 h-8 rounded-lg text-xs font-semibold transition-all ${
                         seat.isOccupied
                           ? "bg-red-800 text-red-400 cursor-not-allowed"
@@ -363,7 +361,7 @@ export default function TicketsPage() {
                       disabled={seat.isOccupied}
                     >
                       {seat.number}
-                    </button>
+                    </ButtonComponent>
                   </div>
                 ))}
               </div>
