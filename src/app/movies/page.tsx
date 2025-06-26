@@ -209,7 +209,7 @@ export default function MoviesPage() {
 
                   {/* Movie Info */}
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-200 line-clamp-2">
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-200 line-clamp-1 overflow-hidden text-ellipsis">
                       {movie.title}
                     </h3>
 

@@ -144,8 +144,8 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src={movie.backgroundImage || movie.poster}
-            alt={movie.title}
+            src={movie.backgroundImage || movie.poster || '/placeholder-movie.jpg'}
+            alt={movie.title || ""}
             fill
             className="object-cover"
           />
@@ -161,8 +161,8 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
               <div className="lg:col-span-1">
                 <div className="relative aspect-[2/3] max-w-sm mx-auto lg:mx-0 group">
                   <Image
-                    src={movie.poster}
-                    alt={movie.title}
+                    src={movie.poster || '/placeholder-movie.jpg'}
+                    alt={movie.title || 'Movie poster'}
                     fill
                     className="object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-300"
                   />
@@ -193,7 +193,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
                     🕐 <span>{movie.duration}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    📅 <span>{new Date(movie.releaseDate).getFullYear()}</span>
+                    📅 <span>{movie.releaseDate ? new Date(movie.releaseDate).getFullYear() : 'N/A'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     🗣️ <span>{movie.language}</span>
@@ -360,7 +360,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
                     <h3 className="text-lg font-semibold text-white mb-2">
                       Selected Showtime
                     </h3>
-                    <p className="text-gray-300 mb-4">
+                    <p className="text-gray-300 mb-4 ">
                       {selectedShowtime} - {movie.title}
                     </p>
                     <Link
@@ -395,7 +395,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
                   <div className="group bg-gradient-to-br from-gray-800/40 to-gray-900/60 rounded-xl overflow-hidden border border-gray-700/50 hover:border-red-500/50 transition-all duration-300 transform hover:-translate-y-2">
                     <div className="relative aspect-[2/3]">
                       <Image
-                        src={relatedMovie.poster}
+                        src={relatedMovie.poster || '/placeholder-movie.jpg'}
                         alt={relatedMovie.title}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
