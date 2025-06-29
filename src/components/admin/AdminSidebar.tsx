@@ -85,19 +85,19 @@ const systemItems = [
 
 export function AdminSidebar() {
   return (
-    <Sidebar className="bg-slate-950 border-slate-800">
-      <SidebarHeader className="border-b border-slate-800 bg-[#fff]">
+    <Sidebar className="bg-[#F2F2F2] border-gray-300">
+      <SidebarHeader className="border-b border-gray-300 bg-[#F2F2F2]">
         <div className="flex items-center gap-2 px-2 py-2">
-          <Film className="h-6 w-6 text-slate-900" />
-          <span className="font-semibold text-lg">
+          <Film className="h-6 w-6 text-[#B6B09F]" />
+          <span className="font-semibold text-lg text-[#1E201E]">
             🎬 Cinema Admin
           </span>
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="bg-white">
+      <SidebarContent className="bg-[#F2F2F2]">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-slate-950 font-bold text-[20px]">
+          <SidebarGroupLabel className="text-[#1E201E] font-bold text-[20px]">
             Management
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -106,7 +106,7 @@ export function AdminSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="text-slate-700 hover:text-white hover:bg-slate-800"
+                    className="text-[#1E201E] hover:text-[#1E201E] hover:bg-[#B6B09F]"
                   >
                     <a href={item.url}>
                       <item.icon className="h-4 w-4" />
@@ -120,7 +120,7 @@ export function AdminSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-slate-950 font-bold text-[20px]">
+          <SidebarGroupLabel className="text-[#1E201E] font-bold text-[20px]">
             Analytics
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -129,7 +129,7 @@ export function AdminSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="text-slate-700 hover:text-white hover:bg-slate-800"
+                    className="text-[#1E201E] hover:text-[#1E201E] hover:bg-[#B6B09F]"
                   >
                     <a href={item.url}>
                       <item.icon className="h-4 w-4" />
@@ -143,7 +143,7 @@ export function AdminSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-slate-950 font-bold text-[20px]">
+          <SidebarGroupLabel className="text-[#1E201E] font-bold text-[20px]">
             System
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -152,7 +152,7 @@ export function AdminSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="text-slate-700 hover:text-white hover:bg-slate-800"
+                    className="text-[#1E201E] hover:text-[#1E201E] hover:bg-[#B6B09F]"
                   >
                     <a href={item.url}>
                       <item.icon className="h-4 w-4" />
@@ -166,10 +166,10 @@ export function AdminSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-slate-800 bg-slate-900">
+      <SidebarFooter className="border-t border-gray-300 bg-[#F2F2F2]">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="text-slate-300 hover:text-white hover:bg-slate-800">
+            <SidebarMenuButton className="text-[#1E201E] hover:text-[#1E201E] hover:bg-[#B6B09F]">
               <Settings className="h-4 w-4" />
               <span>Admin Settings</span>
             </SidebarMenuButton>

@@ -24,9 +24,11 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
   };
 
   return (
-    <div className="rounded-lg border border-slate-700 bg-slate-800/50 backdrop-blur-sm text-white shadow-lg">
+    <div className="rounded-lg border border-gray-300 bg-white backdrop-blur-sm text-[#1E201E] shadow-lg">
       <div className="p-6">
-        <h3 className="text-lg font-medium text-white">Recent Activities</h3>
+        <h3 className="text-lg font-medium text-[#1E201E]">
+          Recent Activities
+        </h3>
         <div className="mt-4 space-y-4">
           {activities.map((activity) => (
             <div key={activity.id} className="flex items-center space-x-4">
@@ -36,10 +38,10 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
                 )}`}
               ></div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-slate-200">
+                <p className="text-sm font-medium text-[#1E201E]">
                   {activity.message}
                 </p>
-                <p className="text-xs text-slate-400">{activity.timestamp}</p>
+                <p className="text-xs text-gray-500">{activity.timestamp}</p>
               </div>
             </div>
           ))}

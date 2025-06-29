@@ -33,10 +33,10 @@ export function DashboardOverview() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-4xl font-bold tracking-tight text-slate-700 mb-2">
+        <h2 className="text-4xl font-bold tracking-tight text-[#1E201E] mb-2">
           🎬 Welcome to Cinema Admin Dashboard
         </h2>
-        <p className="text-slate-700 text-lg">
+        <p className="text-[#1E201E] text-lg">
           Manage your cinema operations from here.
         </p>
       </div>

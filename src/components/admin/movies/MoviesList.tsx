@@ -185,7 +185,7 @@ export function MoviesList() {
       className={`px-2 py-1 text-xs rounded-full ${
         status === "active"
           ? "bg-green-100 text-green-800"
-          : "bg-gray-100 text-gray-800"
+          : "bg-gray-100 text-gray-600"
       }`}
     >
       {status}
@@ -196,12 +196,10 @@ export function MoviesList() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">
+          <h2 className="text-3xl font-bold tracking-tight text-[#1E201E]">
             Movies Management
           </h2>
-          <p className="text-muted-foreground">
-            Manage all movies in your cinema.
-          </p>
+          <p className="text-[#1E201E]">Manage all movies in your cinema.</p>
         </div>
         <DialogCreateMovie
           onMovieCreated={(movie) => {
@@ -220,48 +218,68 @@ export function MoviesList() {
             placeholder="Search movies..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-white text-[#1E201E] border-gray-300"
           />
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-[#1E201E]">
           {filteredMovies.length} movie(s) found
         </div>
       </div>
 
       {/* Data Table */}
-      <div className="rounded-lg border">
+      <div className="rounded-lg border border-gray-300 bg-white">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Genre</TableHead>
-              <TableHead>Director</TableHead>
-              <TableHead>Duration</TableHead>
-              <TableHead>Rating</TableHead>
-              <TableHead>Release Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="text-[#1E201E]">Title</TableHead>
+              <TableHead className="text-[#1E201E]">Genre</TableHead>
+              <TableHead className="text-[#1E201E]">Director</TableHead>
+              <TableHead className="text-[#1E201E]">Duration</TableHead>
+              <TableHead className="text-[#1E201E]">Rating</TableHead>
+              <TableHead className="text-[#1E201E]">Release Date</TableHead>
+              <TableHead className="text-[#1E201E]">Status</TableHead>
+              <TableHead className="text-right text-[#1E201E]">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {currentMovies.length > 0 ? (
               currentMovies.map((movie) => (
-                <TableRow key={movie.id}>
-                  <TableCell className="font-medium">{movie.title}</TableCell>
-                  <TableCell>{movie.genre}</TableCell>
-                  <TableCell>{movie.director}</TableCell>
-                  <TableCell>{movie.duration} min</TableCell>
-                  <TableCell>{movie.rating}/10</TableCell>
-                  <TableCell>
+                <TableRow key={movie.id} className="border-gray-200">
+                  <TableCell className="font-medium text-[#1E201E]">
+                    {movie.title}
+                  </TableCell>
+                  <TableCell className="text-[#1E201E]">
+                    {movie.genre}
+                  </TableCell>
+                  <TableCell className="text-[#1E201E]">
+                    {movie.director}
+                  </TableCell>
+                  <TableCell className="text-[#1E201E]">
+                    {movie.duration} min
+                  </TableCell>
+                  <TableCell className="text-[#1E201E]">
+                    {movie.rating}/10
+                  </TableCell>
+                  <TableCell className="text-[#1E201E]">
                     {new Date(movie.releaseDate).toLocaleDateString()}
                   </TableCell>
                   <TableCell>{getStatusBadge(movie.status)}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end space-x-2">
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="bg-[#B6B09F] text-[#1E201E] border-[#B6B09F] hover:bg-[#B6B09F]/80 hover:text-[#1E201E]"
+                      >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="bg-[#B6B09F] text-[#1E201E] border-[#B6B09F] hover:bg-[#B6B09F]/80 hover:text-[#1E201E]"
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -270,7 +288,10 @@ export function MoviesList() {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={8} className="h-24 text-center">
+                <TableCell
+                  colSpan={8}
+                  className="h-24 text-center text-[#1E201E]"
+                >
                   No movies found.
                 </TableCell>
               </TableRow>
@@ -282,7 +303,7 @@ export function MoviesList() {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-[#1E201E]">
             Showing {startIndex + 1} to{" "}
             {Math.min(endIndex, filteredMovies.length)} of{" "}
             {filteredMovies.length} entries
@@ -293,6 +314,7 @@ export function MoviesList() {
               size="sm"
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
+              className="bg-[#B6B09F] text-[#1E201E] border-[#B6B09F] hover:bg-[#B6B09F]/80 hover:text-[#1E201E]"
             >
               <ChevronLeft className="h-4 w-4" />
               Previous
@@ -305,7 +327,11 @@ export function MoviesList() {
                     variant={currentPage === page ? "default" : "outline"}
                     size="sm"
                     onClick={() => setCurrentPage(page)}
-                    className="w-8 h-8 p-0"
+                    className={`w-8 h-8 p-0 ${
+                      currentPage === page
+                        ? "bg-gray-800 text-white"
+                        : "bg-[#B6B09F] text-[#1E201E] border-[#B6B09F] hover:bg-[#B6B09F]/80 hover:text-[#1E201E]"
+                    }`}
                   >
                     {page}
                   </Button>
@@ -317,6 +343,7 @@ export function MoviesList() {
               size="sm"
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
+              className="bg-[#B6B09F] text-[#1E201E] border-[#B6B09F] hover:bg-[#B6B09F]/80 hover:text-[#1E201E]"
             >
               Next
               <ChevronRight className="h-4 w-4" />

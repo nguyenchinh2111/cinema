@@ -18,13 +18,13 @@ export function StatsCard({
   }[changeType];
 
   return (
-    <div className="rounded-lg border border-slate-700 backdrop-blur-sm text-slate-700 shadow-lg p-6 hover:bg-slate-800/70 transition-colors">
+    <div className="rounded-lg border border-gray-300 backdrop-blur-sm bg-white text-[#1E201E] shadow-lg p-6 hover:bg-gray-50 transition-colors">
       <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <h3 className="tracking-tight text-sm font-medium text-slate-700">
+        <h3 className="tracking-tight text-sm font-medium text-[#1E201E]">
           {title}
         </h3>
       </div>
-      <div className="text-2xl font-bold text-slate-700">{value}</div>
+      <div className="text-2xl font-bold text-[#1E201E]">{value}</div>
       <p className={`text-xs ${changeColor}`}>{change}</p>
     </div>
   );
