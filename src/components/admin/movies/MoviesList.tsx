@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,8 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Edit, Trash2, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Edit, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { DialogCreateMovie } from "./DialogCreateMovie/DialogCreateMovie";
+import { DialogDeleteButton } from "@/components/ui/dialog-delete-button";
 
 interface Movie {
   id: string;
@@ -23,6 +25,7 @@ interface Movie {
   rating: number;
   releaseDate: string;
   director: string;
+  image: string;
 }
 
 const sampleMovies: Movie[] = [
@@ -35,6 +38,7 @@ const sampleMovies: Movie[] = [
     rating: 8.5,
     releaseDate: "2022-12-16",
     director: "James Cameron",
+    image: "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
   },
   {
     id: "2",
@@ -45,6 +49,7 @@ const sampleMovies: Movie[] = [
     rating: 8.8,
     releaseDate: "2022-05-27",
     director: "Joseph Kosinski",
+    image: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
   },
   {
     id: "3",
@@ -55,6 +60,7 @@ const sampleMovies: Movie[] = [
     rating: 7.2,
     releaseDate: "2022-11-11",
     director: "Ryan Coogler",
+    image: "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
   },
   {
     id: "4",
@@ -65,6 +71,7 @@ const sampleMovies: Movie[] = [
     rating: 8.4,
     releaseDate: "2021-12-17",
     director: "Jon Watts",
+    image: "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
   },
   {
     id: "5",
@@ -75,6 +82,7 @@ const sampleMovies: Movie[] = [
     rating: 7.8,
     releaseDate: "2022-03-04",
     director: "Matt Reeves",
+    image: "https://image.tmdb.org/t/p/w500/b0PlSFdDwbyK0cf5RxwDpaOJQvQ.jpg",
   },
   {
     id: "6",
@@ -85,6 +93,7 @@ const sampleMovies: Movie[] = [
     rating: 6.9,
     releaseDate: "2022-05-06",
     director: "Sam Raimi",
+    image: "https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
   },
   {
     id: "7",
@@ -95,6 +104,7 @@ const sampleMovies: Movie[] = [
     rating: 5.6,
     releaseDate: "2022-06-10",
     director: "Colin Trevorrow",
+    image: "https://image.tmdb.org/t/p/w500/kAVRgw7GgK1CfYEJq8ME6EvRIgU.jpg",
   },
   {
     id: "8",
@@ -105,6 +115,7 @@ const sampleMovies: Movie[] = [
     rating: 6.5,
     releaseDate: "2022-07-01",
     director: "Kyle Balda",
+    image: "https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg",
   },
   {
     id: "9",
@@ -115,6 +126,7 @@ const sampleMovies: Movie[] = [
     rating: 6.2,
     releaseDate: "2022-07-08",
     director: "Taika Waititi",
+    image: "https://image.tmdb.org/t/p/w500/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg",
   },
   {
     id: "10",
@@ -125,6 +137,7 @@ const sampleMovies: Movie[] = [
     rating: 6.8,
     releaseDate: "2022-07-22",
     director: "Jordan Peele",
+    image: "https://image.tmdb.org/t/p/w500/AcKVlWaNVVVFQwro3nLXqPljcYA.jpg",
   },
   {
     id: "11",
@@ -135,6 +148,7 @@ const sampleMovies: Movie[] = [
     rating: 7.3,
     releaseDate: "2022-08-05",
     director: "David Leitch",
+    image: "https://image.tmdb.org/t/p/w500/j8szC8OgrejuQezEKxyJJc9UrYg.jpg",
   },
   {
     id: "12",
@@ -145,6 +159,7 @@ const sampleMovies: Movie[] = [
     rating: 7.3,
     releaseDate: "2022-06-24",
     director: "Baz Luhrmann",
+    image: "https://image.tmdb.org/t/p/w500/qBOKWqAFbveZ4ryjJJwbie6tXkQ.jpg",
   },
 ];
 
@@ -152,9 +167,33 @@ export function MoviesList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(5);
+  const [movies, setMovies] = useState<Movie[]>(sampleMovies);
+  const [deletingMovieId, setDeletingMovieId] = useState<string | null>(null);
+
+  // Handle movie deletion
+  const handleDeleteMovie = async (movieId: string, movieTitle: string) => {
+    setDeletingMovieId(movieId);
+    try {
+      // Simulate API call - replace with your actual API endpoint
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Remove movie from local state
+      setMovies((prevMovies) =>
+        prevMovies.filter((movie) => movie.id !== movieId)
+      );
+
+      // You can add toast notification here
+      console.log(`Movie "${movieTitle}" deleted successfully`);
+    } catch (error) {
+      console.error("Failed to delete movie:", error);
+      // You can add error toast notification here
+    } finally {
+      setDeletingMovieId(null);
+    }
+  };
 
   // Filter movies based on search term
-  const filteredMovies = sampleMovies.filter(
+  const filteredMovies = movies.filter(
     (movie) =>
       movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       movie.genre.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -231,6 +270,7 @@ export function MoviesList() {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="text-[#1E201E]">Image</TableHead>
               <TableHead className="text-[#1E201E]">Title</TableHead>
               <TableHead className="text-[#1E201E]">Genre</TableHead>
               <TableHead className="text-[#1E201E]">Director</TableHead>
@@ -247,6 +287,15 @@ export function MoviesList() {
             {currentMovies.length > 0 ? (
               currentMovies.map((movie) => (
                 <TableRow key={movie.id} className="border-gray-200">
+                  <TableCell>
+                    <Image
+                      src={movie.image}
+                      alt={movie.title}
+                      width={48}
+                      height={64}
+                      className="object-cover rounded"
+                    />
+                  </TableCell>
                   <TableCell className="font-medium text-[#1E201E]">
                     {movie.title}
                   </TableCell>
@@ -275,13 +324,19 @@ export function MoviesList() {
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button
-                        variant="outline"
+                      <DialogDeleteButton
+                        iconOnly
                         size="sm"
+                        title={`Delete "${movie.title}"?`}
+                        description={`Are you sure you want to delete "${movie.title}"? This will permanently remove the movie and all associated data from the system.`}
+                        confirmText="Yes, delete movie"
+                        onConfirm={() =>
+                          handleDeleteMovie(movie.id, movie.title)
+                        }
+                        isLoading={deletingMovieId === movie.id}
+                        disabled={deletingMovieId !== null}
                         className="bg-[#B6B09F] text-[#1E201E] border-[#B6B09F] hover:bg-[#B6B09F]/80 hover:text-[#1E201E]"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      />
                     </div>
                   </TableCell>
                 </TableRow>
@@ -289,7 +344,7 @@ export function MoviesList() {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={9}
                   className="h-24 text-center text-[#1E201E]"
                 >
                   No movies found.
