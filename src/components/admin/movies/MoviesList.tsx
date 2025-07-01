@@ -12,12 +12,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Edit, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { DialogCreateMovie } from "./DialogCreateMovie/DialogCreateMovie";
+import { DialogUpdateMovie } from "./DialogUpdateMovie/DialogUpdateMovie";
 import { DialogDeleteButton } from "@/components/ui/dialog-delete-button";
 
 interface Movie {
-  id: string;
+  id: number;
   title: string;
   genre: string;
   duration: number;
@@ -25,12 +26,14 @@ interface Movie {
   rating: number;
   releaseDate: string;
   director: string;
-  image: string;
+  description: string;
+  posterUrl: string;
+  trailerUrl?: string;
 }
 
 const sampleMovies: Movie[] = [
   {
-    id: "1",
+    id: 1,
     title: "Avatar: The Way of Water",
     genre: "Sci-Fi",
     duration: 192,
@@ -38,10 +41,14 @@ const sampleMovies: Movie[] = [
     rating: 8.5,
     releaseDate: "2022-12-16",
     director: "James Cameron",
-    image: "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+    description:
+      "Jake Sully lives with his newfound family formed on the planet of Pandora.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+    trailerUrl: "https://www.youtube.com/watch?v=d9MyW72ELq0",
   },
   {
-    id: "2",
+    id: 2,
     title: "Top Gun: Maverick",
     genre: "Action",
     duration: 130,
@@ -49,10 +56,14 @@ const sampleMovies: Movie[] = [
     rating: 8.8,
     releaseDate: "2022-05-27",
     director: "Joseph Kosinski",
-    image: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
+    description:
+      "After thirty years, Maverick is still pushing the envelope as a top naval aviator.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg",
+    trailerUrl: "https://www.youtube.com/watch?v=giXco2jaZ_4",
   },
   {
-    id: "3",
+    id: 3,
     title: "Black Panther: Wakanda Forever",
     genre: "Action",
     duration: 161,
@@ -60,10 +71,13 @@ const sampleMovies: Movie[] = [
     rating: 7.2,
     releaseDate: "2022-11-11",
     director: "Ryan Coogler",
-    image: "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+    description:
+      "The people of Wakanda fight to protect their home from intervening world powers.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
   },
   {
-    id: "4",
+    id: 4,
     title: "Spider-Man: No Way Home",
     genre: "Action",
     duration: 148,
@@ -71,10 +85,13 @@ const sampleMovies: Movie[] = [
     rating: 8.4,
     releaseDate: "2021-12-17",
     director: "Jon Watts",
-    image: "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+    description:
+      "Spider-Man's identity is revealed, so he asks Doctor Strange for help.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
   },
   {
-    id: "5",
+    id: 5,
     title: "The Batman",
     genre: "Action",
     duration: 176,
@@ -82,10 +99,13 @@ const sampleMovies: Movie[] = [
     rating: 7.8,
     releaseDate: "2022-03-04",
     director: "Matt Reeves",
-    image: "https://image.tmdb.org/t/p/w500/b0PlSFdDwbyK0cf5RxwDpaOJQvQ.jpg",
+    description:
+      "Batman ventures into Gotham City's underworld when a sadistic killer leaves behind a trail of cryptic clues.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/b0PlSFdDwbyK0cf5RxwDpaOJQvQ.jpg",
   },
   {
-    id: "6",
+    id: 6,
     title: "Doctor Strange in the Multiverse of Madness",
     genre: "Action",
     duration: 126,
@@ -93,10 +113,13 @@ const sampleMovies: Movie[] = [
     rating: 6.9,
     releaseDate: "2022-05-06",
     director: "Sam Raimi",
-    image: "https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
+    description:
+      "Dr. Strange casts a forbidden spell that opens a portal to the multiverse.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg",
   },
   {
-    id: "7",
+    id: 7,
     title: "Jurassic World Dominion",
     genre: "Adventure",
     duration: 147,
@@ -104,10 +127,13 @@ const sampleMovies: Movie[] = [
     rating: 5.6,
     releaseDate: "2022-06-10",
     director: "Colin Trevorrow",
-    image: "https://image.tmdb.org/t/p/w500/kAVRgw7GgK1CfYEJq8ME6EvRIgU.jpg",
+    description:
+      "Four years after the destruction of Isla Nublar, dinosaurs now live alongside humans.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/kAVRgw7GgK1CfYEJq8ME6EvRIgU.jpg",
   },
   {
-    id: "8",
+    id: 8,
     title: "Minions: The Rise of Gru",
     genre: "Animation",
     duration: 87,
@@ -115,10 +141,13 @@ const sampleMovies: Movie[] = [
     rating: 6.5,
     releaseDate: "2022-07-01",
     director: "Kyle Balda",
-    image: "https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg",
+    description:
+      "Young Gru dreams of joining his heroes, a supervillain supergroup known as the Vicious 6.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg",
   },
   {
-    id: "9",
+    id: 9,
     title: "Thor: Love and Thunder",
     genre: "Action",
     duration: 119,
@@ -126,10 +155,13 @@ const sampleMovies: Movie[] = [
     rating: 6.2,
     releaseDate: "2022-07-08",
     director: "Taika Waititi",
-    image: "https://image.tmdb.org/t/p/w500/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg",
+    description:
+      "Thor enlists the help of Valkyrie, Korg and ex-girlfriend Jane Foster to fight Gorr the God Butcher.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg",
   },
   {
-    id: "10",
+    id: 10,
     title: "Nope",
     genre: "Horror",
     duration: 130,
@@ -137,10 +169,13 @@ const sampleMovies: Movie[] = [
     rating: 6.8,
     releaseDate: "2022-07-22",
     director: "Jordan Peele",
-    image: "https://image.tmdb.org/t/p/w500/AcKVlWaNVVVFQwro3nLXqPljcYA.jpg",
+    description:
+      "Residents in a lonely gulch of inland California bear witness to an uncanny, chilling discovery.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/AcKVlWaNVVVFQwro3nLXqPljcYA.jpg",
   },
   {
-    id: "11",
+    id: 11,
     title: "Bullet Train",
     genre: "Action",
     duration: 127,
@@ -148,10 +183,13 @@ const sampleMovies: Movie[] = [
     rating: 7.3,
     releaseDate: "2022-08-05",
     director: "David Leitch",
-    image: "https://image.tmdb.org/t/p/w500/j8szC8OgrejuQezEKxyJJc9UrYg.jpg",
+    description:
+      "Five assassins find themselves on a fast-moving bullet train from Tokyo to Morioka.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/j8szC8OgrejuQezEKxyJJc9UrYg.jpg",
   },
   {
-    id: "12",
+    id: 12,
     title: "Elvis",
     genre: "Biography",
     duration: 159,
@@ -159,7 +197,10 @@ const sampleMovies: Movie[] = [
     rating: 7.3,
     releaseDate: "2022-06-24",
     director: "Baz Luhrmann",
-    image: "https://image.tmdb.org/t/p/w500/qBOKWqAFbveZ4ryjJJwbie6tXkQ.jpg",
+    description:
+      "The life story of Elvis Presley as seen through the complicated relationship with his enigmatic manager.",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/qBOKWqAFbveZ4ryjJJwbie6tXkQ.jpg",
   },
 ];
 
@@ -168,10 +209,10 @@ export function MoviesList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage] = useState(5);
   const [movies, setMovies] = useState<Movie[]>(sampleMovies);
-  const [deletingMovieId, setDeletingMovieId] = useState<string | null>(null);
+  const [deletingMovieId, setDeletingMovieId] = useState<number | null>(null);
 
   // Handle movie deletion
-  const handleDeleteMovie = async (movieId: string, movieTitle: string) => {
+  const handleDeleteMovie = async (movieId: number, movieTitle: string) => {
     setDeletingMovieId(movieId);
     try {
       // Simulate API call - replace with your actual API endpoint
@@ -289,7 +330,7 @@ export function MoviesList() {
                 <TableRow key={movie.id} className="border-gray-200">
                   <TableCell>
                     <Image
-                      src={movie.image}
+                      src={movie.posterUrl}
                       alt={movie.title}
                       width={48}
                       height={64}
@@ -317,13 +358,18 @@ export function MoviesList() {
                   <TableCell>{getStatusBadge(movie.status)}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end space-x-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-[#B6B09F] text-[#1E201E] border-[#B6B09F] hover:bg-[#B6B09F]/80 hover:text-[#1E201E]"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
+                      <DialogUpdateMovie
+                        movie={movie}
+                        onMovieUpdated={(updatedMovie) => {
+                          setMovies((prevMovies) =>
+                            prevMovies.map((m) =>
+                              m.id === movie.id
+                                ? { ...movie, ...updatedMovie }
+                                : m
+                            )
+                          );
+                        }}
+                      />
                       <DialogDeleteButton
                         iconOnly
                         size="sm"

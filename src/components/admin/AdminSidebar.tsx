@@ -18,6 +18,7 @@ import {
   Users,
   Calendar,
   BarChart3,
+  Armchair,
   Settings,
   Ticket,
   MessageSquare,
@@ -39,6 +40,11 @@ const adminMenuItems = [
     title: "Users",
     url: "/admin/users",
     icon: Users,
+  },
+  {
+    title: "Rooms",
+    url: "/admin/rooms",
+    icon: Armchair
   },
   {
     title: "Bookings",

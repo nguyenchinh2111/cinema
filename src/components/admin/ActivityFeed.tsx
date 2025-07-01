@@ -1,25 +1,36 @@
-interface Activity {
+interface StatisticalData {
   id: string;
-  message: string;
-  timestamp: string;
-  type: "info" | "success" | "warning" | "error";
+  label: string;
+  value: number;
+  change: number;
+  changeType: "increase" | "decrease" | "neutral";
+  icon?: string;
 }
 
-interface ActivityFeedProps {
-  activities: Activity[];
+interface StatisticalFeedProps {
+  statistics: StatisticalData[];
 }
 
-export function ActivityFeed({ activities }: ActivityFeedProps) {
-  const getStatusColor = (type: Activity["type"]) => {
-    switch (type) {
-      case "success":
-        return "bg-green-500";
-      case "warning":
-        return "bg-yellow-500";
-      case "error":
-        return "bg-red-500";
+export function StatisticalFeed({ statistics }: StatisticalFeedProps) {
+  const getChangeColor = (changeType: StatisticalData["changeType"]) => {
+    switch (changeType) {
+      case "increase":
+        return "text-green-600";
+      case "decrease":
+        return "text-red-600";
       default:
-        return "bg-blue-500";
+        return "text-gray-600";
+    }
+  };
+
+  const getChangeIcon = (changeType: StatisticalData["changeType"]) => {
+    switch (changeType) {
+      case "increase":
+        return "↗";
+      case "decrease":
+        return "↘";
+      default:
+        return "→";
     }
   };
 
@@ -27,21 +38,36 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
     <div className="rounded-lg border border-gray-300 bg-white backdrop-blur-sm text-[#1E201E] shadow-lg">
       <div className="p-6">
         <h3 className="text-lg font-medium text-[#1E201E]">
-          Recent Activities
+          Statistics Overview
         </h3>
         <div className="mt-4 space-y-4">
-          {activities.map((activity) => (
-            <div key={activity.id} className="flex items-center space-x-4">
+          {statistics.map((stat) => (
+            <div
+              key={stat.id}
+              className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+            >
+              <div className="flex items-center space-x-3">
+                {stat.icon && <div className="text-xl">{stat.icon}</div>}
+                <div>
+                  <p className="text-sm font-medium text-[#1E201E]">
+                    {stat.label}
+                  </p>
+                  <p className="text-2xl font-bold text-[#1E201E]">
+                    {stat.value.toLocaleString()}
+                  </p>
+                </div>
+              </div>
               <div
-                className={`w-2 h-2 rounded-full ${getStatusColor(
-                  activity.type
+                className={`flex items-center space-x-1 ${getChangeColor(
+                  stat.changeType
                 )}`}
-              ></div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-[#1E201E]">
-                  {activity.message}
-                </p>
-                <p className="text-xs text-gray-500">{activity.timestamp}</p>
+              >
+                <span className="text-lg">
+                  {getChangeIcon(stat.changeType)}
+                </span>
+                <span className="text-sm font-medium">
+                  {Math.abs(stat.change)}%
+                </span>
               </div>
             </div>
           ))}

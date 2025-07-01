@@ -1,31 +1,40 @@
 "use client";
 
-import { StatsCard, ActivityFeed } from "../index";
+import { StatsCard, StatisticalFeed } from "../index";
 
-const sampleActivities = [
+
+const statistics = [
   {
     id: "1",
-    message: "New movie added: &quot;Avatar 3&quot;",
-    timestamp: "2 hours ago",
-    type: "info" as const,
+    label: "Total Movies",
+    value: 245,
+    change: 20.1,
+    changeType: "increase" as const,
+    icon: "🎬",
   },
   {
     id: "2",
-    message: "User John Doe booked tickets",
-    timestamp: "4 hours ago",
-    type: "success" as const,
+    label: "Active Users",
+    value: 1234,
+    change: 15.2,
+    changeType: "increase" as const,
+    icon: "👤",
   },
   {
     id: "3",
-    message: "Showtime updated for Screen 2",
-    timestamp: "6 hours ago",
-    type: "warning" as const,
+    label: "Bookings Today",
+    value: 89,
+    change: 12.5,
+    changeType: "increase" as const,
+    icon: "🎟️",
   },
   {
     id: "4",
-    message: "Payment failed for booking #1234",
-    timestamp: "8 hours ago",
-    type: "error" as const,
+    label: "Revenue",
+    value: 12345,
+    change: 8.2,
+    changeType: "increase" as const,
+    icon: "💰",
   },
 ];
 
@@ -67,8 +76,7 @@ export function DashboardOverview() {
           changeType="positive"
         />
       </div>
-
-      <ActivityFeed activities={sampleActivities} />
+      <StatisticalFeed statistics={statistics} />
     </div>
   );
 }
