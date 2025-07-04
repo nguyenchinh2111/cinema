@@ -1,82 +1,154 @@
 "use client";
 
-import { StatsCard, StatisticalFeed } from "../index";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { SimpleBarChart } from "./SimpleBarChart";
+import { SimplePieChart } from "./SimplePieChart";
+import { SimpleLineChart } from "./SimpleLineChart";
+import { SimpleAreaChart } from "./SimpleAreaChart";
 
+// Sample data for charts
+const barChartData = [
+  { name: "Action", value: 45, percentage: 75, color: "#3b82f6" },
+  { name: "Comedy", value: 32, percentage: 53, color: "#10b981" },
+  { name: "Drama", value: 28, percentage: 47, color: "#f59e0b" },
+  { name: "Horror", value: 15, percentage: 25, color: "#ef4444" },
+];
 
-const statistics = [
-  {
-    id: "1",
-    label: "Total Movies",
-    value: 245,
-    change: 20.1,
-    changeType: "increase" as const,
-    icon: "🎬",
-  },
-  {
-    id: "2",
-    label: "Active Users",
-    value: 1234,
-    change: 15.2,
-    changeType: "increase" as const,
-    icon: "👤",
-  },
-  {
-    id: "3",
-    label: "Bookings Today",
-    value: 89,
-    change: 12.5,
-    changeType: "increase" as const,
-    icon: "🎟️",
-  },
-  {
-    id: "4",
-    label: "Revenue",
-    value: 12345,
-    change: 8.2,
-    changeType: "increase" as const,
-    icon: "💰",
-  },
+const pieChartData = [
+  { name: "Screen 1", value: 120, percentage: 30, color: "#3b82f6" },
+  { name: "Screen 2", value: 100, percentage: 25, color: "#10b981" },
+  { name: "Screen 3", value: 80, percentage: 20, color: "#f59e0b" },
+  { name: "Screen 4", value: 100, percentage: 25, color: "#ef4444" },
+];
+
+const lineChartData = [
+  { name: "Jan", value: 1200 },
+  { name: "Feb", value: 1400 },
+  { name: "Mar", value: 1100 },
+  { name: "Apr", value: 1600 },
+  { name: "May", value: 1800 },
+  { name: "Jun", value: 2000 },
+];
+
+const areaChartData = [
+  { name: "Week 1", value: 400 },
+  { name: "Week 2", value: 600 },
+  { name: "Week 3", value: 800 },
+  { name: "Week 4", value: 1200 },
 ];
 
 export function DashboardOverview() {
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="text-center">
-        <h2 className="text-4xl font-bold tracking-tight text-[#1E201E] mb-2">
+        <h2 className="text-4xl font-bold tracking-tight mb-2">
           🎬 Welcome to Cinema Admin Dashboard
         </h2>
-        <p className="text-[#1E201E] text-lg">
+        <p className="text-muted-foreground text-lg">
           Manage your cinema operations from here.
         </p>
       </div>
 
+      {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatsCard
-          title="Total Movies"
-          value={245}
-          change="+20.1% from last month"
-          changeType="positive"
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Movies</CardTitle>
+            <span className="text-2xl">🎬</span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">245</div>
+            <p className="text-xs text-muted-foreground">
+              <Badge variant="secondary" className="text-green-600">
+                +20.1%
+              </Badge>{" "}
+              from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+            <span className="text-2xl">👤</span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1,234</div>
+            <p className="text-xs text-muted-foreground">
+              <Badge variant="secondary" className="text-green-600">
+                +15.2%
+              </Badge>{" "}
+              from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Bookings Today
+            </CardTitle>
+            <span className="text-2xl">🎟️</span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">89</div>
+            <p className="text-xs text-muted-foreground">
+              <Badge variant="secondary" className="text-green-600">
+                +12.5%
+              </Badge>{" "}
+              from yesterday
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+            <span className="text-2xl">💰</span>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$12,345</div>
+            <p className="text-xs text-muted-foreground">
+              <Badge variant="secondary" className="text-green-600">
+                +8.2%
+              </Badge>{" "}
+              from last month
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <SimpleBarChart
+          title="Movies by Genre"
+          description="Distribution of movies across different genres"
+          data={barChartData}
         />
-        <StatsCard
-          title="Active Users"
-          value="1,234"
-          change="+15.2% from last month"
-          changeType="positive"
+        <SimplePieChart
+          title="Screen Utilization"
+          description="Booking distribution across screens"
+          data={pieChartData}
         />
-        <StatsCard
-          title="Bookings Today"
-          value={89}
-          change="+12.5% from yesterday"
-          changeType="positive"
+        <SimpleLineChart
+          title="Monthly Revenue Trend"
+          description="Revenue growth over the past 6 months"
+          data={lineChartData}
         />
-        <StatsCard
-          title="Revenue"
-          value="$12,345"
-          change="+8.2% from last month"
-          changeType="positive"
+        <SimpleAreaChart
+          title="Weekly Bookings"
+          description="Booking trends for the current month"
+          data={areaChartData}
         />
       </div>
-      <StatisticalFeed statistics={statistics} />
     </div>
   );
 }
