@@ -1,9 +1,7 @@
-import Slider from "../components/Slider/Slider";
 import NewMovies from "../components/NewMovies/NewMovies";
-import { cinemaData } from "../Mocdata/data";
 import Footer from "@/components/Footer";
-import Header from '../components/Header';
-import Image from 'next/image';
+import Header from "../components/Header";
+import Image from "next/image";
 import {
   Carousel,
   CarouselContent,
@@ -17,36 +15,49 @@ export default function Home() {
     <>
       <Header />
       {/* Hero Slider Section */}
-      <div>
-        <Carousel>
-          <CarouselContent>
-            <CarouselItem className="basic-1/3">
-              <Image
-                src="https://www.google.com/url?sa=i&url=https%3A%2F%2Ffptshop.com.vn%2Ftin-tuc%2Fdanh-gia%2Fposter-film-176175&psig=AOvVaw2A5SWgxVOS-MC1qBwd4aJ3&ust=1751970478704000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJD5qeLEqo4DFQAAAAAdAAAAABAX"
-                alt={""}
-                width={800} // hoặc số phù hợp
-                height={600}
-              />
+      <div className="relative w-full h-[400px] overflow-hidden">
+        <Carousel
+          className="w-full h-full"
+          autoplay={true}
+          autoplayDelay={4000}
+        >
+          <CarouselContent className="h-full ml-0">
+            <CarouselItem className="basis-full pl-0">
+              <div className="relative w-full h-[400px]">
+                <Image
+                  src="/images/film1.png"
+                  alt="Film 1"
+                  className="w-full h-full object-cover"
+                  width={800}
+                  height={400}
+                />
+              </div>
             </CarouselItem>
-            <CarouselItem className="basic-1/3">
-              <Image
-                src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fdesigner.com.vn%2Fposter%2Fposter-phim-kinh-di&psig=AOvVaw2A5SWgxVOS-MC1qBwd4aJ3&ust=1751970478704000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJD5qeLEqo4DFQAAAAAdAAAAABAv"
-                alt={""}
-                width={800} // hoặc số phù hợp
-                height={600}
-              />
+            <CarouselItem className="basis-full pl-0">
+              <div className="relative w-full h-[400px]">
+                <Image
+                  src="/images/film2.png"
+                  alt="Film 2"
+                  className="w-full h-full object-cover"
+                  width={800}
+                  height={400}
+                />
+              </div>
             </CarouselItem>
-            <CarouselItem className="basic-1/3">
-              <Image
-                src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fpoulwebb.blogspot.com%2F2015%2F08%2Ffilm-posters-1960s-part-1.html&psig=AOvVaw2A5SWgxVOS-MC1qBwd4aJ3&ust=1751970478704000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJD5qeLEqo4DFQAAAAAdAAAAABA7"
-                alt={""}
-                width={800} // hoặc số phù hợp
-                height={600}
-              />
+            <CarouselItem className="basis-full pl-0">
+              <div className="relative w-full h-[400px]">
+                <Image
+                  src="/images/film3.png"
+                  alt="Film 3"
+                  className="w-full h-full object-cover"
+                  width={800}
+                  height={400}
+                />
+              </div>
             </CarouselItem>
-            <CarouselPrevious />
-            <CarouselNext />
           </CarouselContent>
+          <CarouselPrevious className="left-4 bg- border-none cursor-pointer" />
+          <CarouselNext className="right-4 bg- border-none cursor-pointer" />
         </Carousel>
       </div>
 

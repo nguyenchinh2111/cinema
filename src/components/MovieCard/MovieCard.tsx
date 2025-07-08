@@ -1,6 +1,13 @@
 import Image from "next/image";
 import { Movie } from "../../Mocdata/data";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface MovieCardProps {
   movie: Movie;
@@ -8,7 +15,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
-    <div className="bg-gray-900 border border-gray-700 rounded-lg shadow-xl overflow-hidden hover:shadow-4xl hover:border-red-600 transition-all duration-300 group">
+    <Card className="bg-gray-900 border-gray-700 hover:shadow-4xl hover:border-red-600 transition-all duration-300 group overflow-hidden">
       <div className="relative h-64 overflow-hidden">
         <Image
           src={movie.poster}
@@ -23,14 +30,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         </div>
       </div>
 
-      <div className="p-5 bg-gray-900">
-        <h3
-          className="text-xl font-bold mb-3 text-white truncate hover:text-clip group-hover:text-red-400 transition-colors duration-200"
-          title={movie.title}
-        >
+      <CardHeader className="bg-gray-900 px-5 pb-3">
+        <CardTitle className="text-xl font-bold text-white truncate hover:text-clip group-hover:text-red-400 transition-colors duration-200">
           {movie.title}
-        </h3>
+        </CardTitle>
+      </CardHeader>
 
+      <CardContent className="bg-gray-900 px-5 py-0">
         <div className="space-y-2 text-sm text-gray-300">
           <p className="flex items-center">
             <span className="font-medium text-red-400 mr-2">🎭</span>
@@ -48,8 +54,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
             <span className="ml-2 text-white">{movie.releaseDate}</span>
           </p>
         </div>
+      </CardContent>
 
-        <div className="mt-5 space-y-3">
+      <CardFooter className="bg-gray-900 px-5 pt-3 pb-5">
+        <div className="w-full space-y-3">
           <ButtonComponent
             className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 px-4 rounded-lg transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 cursor-pointer"
             text="🎫 Book Tickets"
@@ -59,8 +67,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
             text="▶️ Watch Trailer"
           />
         </div>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 };
 
