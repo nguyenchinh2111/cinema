@@ -1,0 +1,1 @@
+export { DialogEditSeats } from './DialogEditSeats';

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,14 +37,27 @@ interface DialogCreateMovieProps {
 export function DialogCreateMovie({ onMovieCreated }: DialogCreateMovieProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [posterPreview, setPosterPreview] = useState<string>("");
+  const [imageError, setImageError] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<MovieFormData>({
     mode: "onChange",
+  });
+
+  const posterUrl = watch("posterUrl");
+
+  // Update poster preview when URL changes
+  useState(() => {
+    if (posterUrl && posterUrl !== posterPreview) {
+      setPosterPreview(posterUrl);
+      setImageError(false);
+    }
   });
 
   const onSubmit: SubmitHandler<MovieFormData> = async (data) => {
@@ -75,6 +89,8 @@ export function DialogCreateMovie({ onMovieCreated }: DialogCreateMovieProps) {
     setIsOpen(open);
     if (!open) {
       reset(); // Reset form when dialog closes
+      setPosterPreview("");
+      setImageError(false);
     }
   };
 
@@ -264,6 +280,29 @@ export function DialogCreateMovie({ onMovieCreated }: DialogCreateMovieProps) {
                 <p className="text-red-500 text-sm mt-1">
                   {errors.posterUrl.message}
                 </p>
+              )}
+              
+              {/* Image Preview */}
+              {posterPreview && (
+                <div className="mt-3">
+                  <div className="relative w-32 h-48 border border-gray-300 rounded-md overflow-hidden bg-gray-50">
+                    {!imageError ? (
+                      <Image
+                        src={posterPreview}
+                        alt="Poster preview"
+                        fill
+                        className="object-cover"
+                        onError={() => setImageError(true)}
+                        onLoad={() => setImageError(false)}
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm text-center p-2">
+                        Failed to load image
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
 

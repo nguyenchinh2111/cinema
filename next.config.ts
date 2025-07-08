@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
-    domains: ["image.tmdb.org"],
+    domains: ["image.tmdb.org", "www.google.com", "fptshop.com.vn"],
   },
 };
 
