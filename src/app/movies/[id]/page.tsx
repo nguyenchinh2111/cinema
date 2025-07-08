@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cinemaData } from "../../../Mocdata/cinemaData";
+import { Button } from "@/components/ui/button";
 
 // Extended movie data for detail page
 const movieDetails = {
@@ -104,16 +105,17 @@ const movieDetails = {
 };
 
 interface MovieDetailPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function MovieDetailPage({ params }: MovieDetailPageProps) {
   const [selectedShowtime, setSelectedShowtime] = useState<string>("");
   const [activeTab, setActiveTab] = useState("overview");
 
-  const movieId = parseInt(params.id);
+  const resolvedParams = use(params);
+  const movieId = parseInt(resolvedParams.id);
   const movie = movieDetails[movieId as keyof typeof movieDetails];
 
   if (!movie) {
@@ -144,7 +146,9 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src={movie.backgroundImage || movie.poster || '/placeholder-movie.jpg'}
+            src={
+              movie.backgroundImage || movie.poster || "/placeholder-movie.jpg"
+            }
             alt={movie.title || ""}
             fill
             className="object-cover"
@@ -161,8 +165,8 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
               <div className="lg:col-span-1">
                 <div className="relative aspect-[2/3] max-w-sm mx-auto lg:mx-0 group">
                   <Image
-                    src={movie.poster || '/placeholder-movie.jpg'}
-                    alt={movie.title || 'Movie poster'}
+                    src={movie.poster || "/placeholder-movie.jpg"}
+                    alt={movie.title || "Movie poster"}
                     fill
                     className="object-cover rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-300"
                   />
@@ -173,15 +177,24 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
               {/* Movie Info */}
               <div className="lg:col-span-2 text-center lg:text-left">
                 <div className="mb-4">
-                  <span className="bg-red-600/20 text-red-400 px-3 py-1 rounded-full text-sm font-semibold border border-red-500/30">
+                  <span className="bg-yellow-500/90 text-black px-3 py-1 rounded-full text-sm font-bold">
                     {movie.ageRating}
                   </span>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                   {movie.title}
                 </h1>
-
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {movie.genre?.split(',').map((genre, index) => (
+                    <span
+                      key={index}
+                      className="bg-gray-800/50 text-red-400 px-3 py-1 rounded-full text-sm font-medium border border-gray-700/50"
+                    >
+                      {genre.trim()}
+                    </span>
+                  ))}
+                </div>
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-gray-300 mb-6">
                   <div className="flex items-center gap-2">
                     ⭐{" "}
@@ -193,7 +206,12 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
                     🕐 <span>{movie.duration}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    📅 <span>{movie.releaseDate ? new Date(movie.releaseDate).getFullYear() : 'N/A'}</span>
+                    📅{" "}
+                    <span>
+                      {movie.releaseDate
+                        ? new Date(movie.releaseDate).getFullYear()
+                        : "N/A"}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     🗣️ <span>{movie.language}</span>
@@ -206,13 +224,13 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link href={`/tickets?movieId=${movieId}`}>
-                    <button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-red-500/25 transform hover:-translate-y-1">
+                    <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-red-500/25 transform hover:-translate-y-1">
                       🎫 Book Tickets
-                    </button>
+                    </Button>
                   </Link>
-                  <button className="bg-gray-800/50 border border-gray-700/50 hover:border-red-500/50 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-gray-700/50">
+                  <Button className="bg-gray-800/50 border border-gray-700/50 hover:border-red-500/50 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-gray-700/50">
                     ▶️ Watch Trailer
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -230,7 +248,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
               { id: "cast", label: "Cast & Crew", icon: "🎭" },
               { id: "showtimes", label: "Showtimes", icon: "🕐" },
             ].map((tab) => (
-              <button
+              <Button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
@@ -240,7 +258,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
                 }`}
               >
                 {tab.icon} {tab.label}
-              </button>
+              </Button>
             ))}
           </div>
 
@@ -395,7 +413,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
                   <div className="group bg-gradient-to-br from-gray-800/40 to-gray-900/60 rounded-xl overflow-hidden border border-gray-700/50 hover:border-red-500/50 transition-all duration-300 transform hover:-translate-y-2">
                     <div className="relative aspect-[2/3]">
                       <Image
-                        src={relatedMovie.poster || '/placeholder-movie.jpg'}
+                        src={relatedMovie.poster || "/placeholder-movie.jpg"}
                         alt={relatedMovie.title}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
@@ -407,7 +425,7 @@ export default function MovieDetailPage({ params }: MovieDetailPageProps) {
                       </div>
                     </div>
                     <div className="p-4">
-                      <h3 className="text-white font-semibold line-clamp-2 group-hover:text-red-400 transition-colors duration-300">
+                      <h3 className="text-white font-semibold line-clamp-1 group-hover:text-red-400 transition-colors duration-300">
                         {relatedMovie.title}
                       </h3>
                       <p className="text-gray-400 text-sm mt-1">

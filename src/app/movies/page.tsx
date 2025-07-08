@@ -3,6 +3,23 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cinemaData } from "../../Mocdata/cinemaData";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Text } from "@/components/ui/text";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function MoviesPage() {
   const [selectedGenre, setSelectedGenre] = useState("All");
@@ -77,7 +94,7 @@ export default function MoviesPage() {
           <div className="flex flex-col lg:flex-row gap-6 items-center justify-between mb-12">
             {/* Search Bar */}
             <div className="relative flex-1 max-w-md">
-              <input
+              <Input
                 type="text"
                 placeholder="Search movies..."
                 value={searchTerm}
@@ -101,35 +118,38 @@ export default function MoviesPage() {
 
             {/* Sort Dropdown */}
             <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-6 py-4 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white focus:outline-none focus:border-red-500/50 transition-all duration-300 appearance-none pr-12"
-              >
-                <option value="rating">Sort by Rating</option>
-                <option value="title">Sort by Title</option>
-                <option value="releaseDate">Sort by Release Date</option>
-              </select>
-              <svg
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-[200px] px-6 py-4 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white focus:outline-none focus:border-red-500/50 transition-all duration-300">
+                  <SelectValue placeholder="Sort by..." />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border border-gray-700/50 rounded-xl">
+                  <SelectItem
+                    value="rating"
+                    className="text-white hover:bg-gray-700/50"
+                  >
+                    Sort by Rating
+                  </SelectItem>
+                  <SelectItem
+                    value="title"
+                    className="text-white hover:bg-gray-700/50"
+                  >
+                    Sort by Title
+                  </SelectItem>
+                  <SelectItem
+                    value="releaseDate"
+                    className="text-white hover:bg-gray-700/50"
+                  >
+                    Sort by Release Date
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
           {/* Genre Filter */}
           <div className="flex flex-wrap gap-3 justify-center mb-12">
             {genres.map((genre) => (
-              <button
+              <Button
                 key={genre}
                 onClick={() => setSelectedGenre(genre)}
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
@@ -139,7 +159,7 @@ export default function MoviesPage() {
                 }`}
               >
                 {genre}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -150,28 +170,27 @@ export default function MoviesPage() {
         <div className="max-w-7xl mx-auto">
           {/* Results count */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-2">
+            <Text className="text-2xl font-bold text-white mb-2">
               {filteredMovies.length} Movies Found
-            </h2>
+            </Text>
             <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full"></div>
           </div>
-
           {filteredMovies.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🎭</div>
-              <h3 className="text-2xl font-bold text-gray-300 mb-2">
+              <Text className="text-2xl font-bold text-gray-300 mb-2">
                 No movies found
-              </h3>
-              <p className="text-gray-400">
+              </Text>
+              <Text className="text-gray-400">
                 Try adjusting your search or filter criteria
-              </p>
+              </Text>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {filteredMovies.map((movie, index) => (
-                <div
+                <Card
                   key={movie.id}
-                  className="group bg-gradient-to-br from-gray-800/40 to-gray-900/60 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-red-500/50 transition-all duration-300 transform hover:-translate-y-3 hover:shadow-2xl hover:shadow-red-500/20"
+                  className="group bg-gradient-to-br from-gray-800/40 to-gray-900/60 hover:border-red-500/50 transition-all duration-300 transform hover:-translate-y-3 hover:shadow-2xl hover:shadow-red-500/20 border-gray-700/50 overflow-hidden"
                   style={{
                     animationDelay: `${index * 100}ms`,
                   }}
@@ -207,37 +226,37 @@ export default function MoviesPage() {
                     </div>
                   </div>
 
-                  {/* Movie Info */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-200 line-clamp-1 overflow-hidden text-ellipsis">
+                  <CardContent className="p-6">
+                    <CardTitle className="text-xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors duration-200 line-clamp-1 overflow-hidden text-ellipsis">
                       {movie.title}
-                    </h3>
+                    </CardTitle>
 
                     <div className="space-y-2 mb-4">
-                      <p className="text-gray-300 text-sm">{movie.genre}</p>
+                      <CardDescription className="text-gray-300 text-sm">
+                        {movie.genre}
+                      </CardDescription>
                       <div className="flex items-center gap-4 text-sm text-gray-400">
-                        <span>🕐 {movie.duration}</span>
-                        <span>
+                        <Text variant="secondary">🕐 {movie.duration}</Text>
+                        <Text variant="secondary">
                           📅 {new Date(movie.releaseDate).getFullYear()}
-                        </span>
+                        </Text>
                       </div>
                     </div>
+                  </CardContent>
 
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
-                      <Link href={`/movies/${movie.id}`} className="flex-1">
-                        <button className="w-full bg-gradient-to-r from-red-600/20 to-orange-600/20 hover:from-red-600 hover:to-orange-600 text-red-400 hover:text-white px-4 py-3 rounded-xl font-semibold transition-all duration-300 border border-red-500/30 hover:border-red-500 text-sm">
-                          View Details
-                        </button>
-                      </Link>
-                      <Link href={`/tickets?movieId=${movie.id}`}>
-                        <button className="bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white px-4 py-3 rounded-xl transition-all duration-300 border border-gray-600/30 hover:border-gray-500">
-                          🎫
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                  <CardFooter className="flex gap-2 px-6 pb-6">
+                    <Link href={`/movies/${movie.id}`} className="flex-1">
+                      <Button className="w-full bg-gradient-to-r from-red-600/20 to-orange-600/20 hover:from-red-600 hover:to-orange-600 text-red-400 hover:text-white px-4 py-3 rounded-xl font-semibold transition-all duration-300 border border-red-500/30 hover:border-red-500 text-sm">
+                        View Details
+                      </Button>
+                    </Link>
+                    <Link href={`/tickets?movieId=${movie.id}`}>
+                      <Button className="bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white px-4 py-3 rounded-xl transition-all duration-300 border border-gray-600/30 hover:border-gray-500">
+                        🎫
+                      </Button>
+                    </Link>
+                  </CardFooter>
+                </Card>
               ))}
             </div>
           )}
@@ -247,16 +266,18 @@ export default function MoviesPage() {
       {/* Call to Action Section */}
       <section className="py-16 px-4 md:px-8 mt-16">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-br from-gray-800/40 to-gray-900/60 rounded-2xl p-8 md:p-12 border border-gray-700/50">
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 bg-clip-text text-transparent mb-4">
-              🎟️ Ready to Watch?
-            </h2>
-            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-              Book your tickets now and enjoy the ultimate cinema experience
-              with premium seating, cutting-edge sound, and crystal-clear
-              visuals
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Card className="bg-gradient-to-br from-gray-800/40 to-gray-900/60 border-gray-700/50">
+            <CardContent className="p-8 md:p-12">
+              <CardTitle className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 bg-clip-text text-transparent mb-4">
+                🎟️ Ready to Watch?
+              </CardTitle>
+              <CardDescription className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                Book your tickets now and enjoy the ultimate cinema experience
+                with premium seating, cutting-edge sound, and crystal-clear
+                visuals
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="flex flex-col sm:flex-row gap-4 justify-center px-8 md:px-12 pb-8 md:pb-12">
               <Link href="/showtimes">
                 <button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-red-500/25 transform hover:-translate-y-1">
                   View Showtimes
@@ -267,8 +288,8 @@ export default function MoviesPage() {
                   Book Tickets
                 </button>
               </Link>
-            </div>
-          </div>
+            </CardFooter>
+          </Card>
         </div>
       </section>
     </div>
